@@ -20,11 +20,16 @@ app.post("/api/ask-ai", async (req, res) => {
         const prompt = req.body.prompt;
 
         const response = await ollama.chat({
-            model: "gpt-oss:120b",   // oder dein gewünschtes Modell
+            model: "gpt-oss:120b",
             messages: [
                 { role: "user", content: prompt }
             ],
-            stream: false   // wichtig! Kein Streaming für Express
+            stream: false
+        });
+
+// Nur den Text zurückgeben
+        res.json({
+            text: response.message?.content || ""
         });
 
         res.json(response);
